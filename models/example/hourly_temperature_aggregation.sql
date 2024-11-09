@@ -8,4 +8,4 @@ SELECT
     MAX(temperature_celsius) AS max_hourly_temperature,
     MIN(temperature_celsius) AS min_hourly_temperature
 FROM {{ ref('staging_weather') }}
-GROUP BY city_name, country, hour
+GROUP BY city_name, country, hour 

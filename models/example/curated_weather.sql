@@ -13,4 +13,4 @@ WITH weather_summary AS (
     FROM {{ ref('staging_weather') }}
     GROUP BY city_name, country
 )
-SELECT * FROM weather_summary
+SELECT * FROM weather_summary 

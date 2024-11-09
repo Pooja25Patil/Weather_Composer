@@ -35,3 +35,4 @@ WITH raw_weather AS (
     FROM {{ source('weather_data', 'data') }}
 )
 SELECT * FROM raw_weather
+ 

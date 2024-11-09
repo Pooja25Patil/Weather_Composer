@@ -36,4 +36,4 @@ SELECT
         WHEN data_status = 'Valid' AND ABS(z_score) > 2 THEN 'Outlier'
         ELSE 'Normal'
     END AS temperature_outlier_status
-FROM zscore_calc
+FROM zscore_calc 

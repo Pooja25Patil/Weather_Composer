@@ -10,4 +10,4 @@ SELECT
         WHEN temperature_celsius BETWEEN 15 AND 30 THEN 'Mild'
         ELSE 'Cold'
     END AS weather_category
-FROM {{ ref('staging_weather') }}
+FROM {{ ref('staging_weather') }} 

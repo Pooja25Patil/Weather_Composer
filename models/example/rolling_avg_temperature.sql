@@ -9,4 +9,4 @@ SELECT
         ORDER BY TIMESTAMP(localtime)
         ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
     ) AS rolling_5_reading_avg_temperature
-FROM {{ ref('staging_weather') }}
+FROM {{ ref('staging_weather') }} 
