@@ -1,11 +1,11 @@
 WITH stats AS (
     SELECT
-        location.name AS location_name,
-        AVG(current.temp_c) AS avg_temperature,
-        STDDEV(current.temp_c) AS stddev_temperature,
-        COUNT(current.temp_c) AS record_count
+        city_name AS location_name,
+        AVG(temperature_celsius) AS avg_temperature,
+        STDDEV(temperature_celsius) AS stddev_temperature,
+        COUNT(temperature_celsius) AS record_count
     FROM {{ ref('staging_weather') }}
-    GROUP BY location.name
+    GROUP BY city_name
 ),
 zscore_calc AS (
     SELECT
@@ -16,7 +16,7 @@ zscore_calc AS (
         -- Safely calculate Z-Score only if STDDEV is not NULL or zero
         CASE
             WHEN stats.stddev_temperature > 0 THEN
-                (sw.current.temp_c - stats.avg_temperature) / stats.stddev_temperature
+                (sw.temperature_celsius - stats.avg_temperature) / stats.stddev_temperature
             ELSE 0 -- Default to 0 if no variation
         END AS z_score,
         -- Determine data status
@@ -27,7 +27,7 @@ zscore_calc AS (
         END AS data_status
     FROM {{ ref('staging_weather') }} AS sw
     LEFT JOIN stats
-    ON sw.location.name = stats.location_name
+    ON sw.city_name = stats.location_name
 )
 SELECT
     *,
@@ -36,4 +36,4 @@ SELECT
         WHEN data_status = 'Valid' AND ABS(z_score) > 2 THEN 'Outlier'
         ELSE 'Normal'
     END AS temperature_outlier_status
-FROM zscore_calc;
+FROM zscore_calc
