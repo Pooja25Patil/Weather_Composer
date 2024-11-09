@@ -1,13 +1,13 @@
 SELECT
-    location_name,
-    country,
-    temperature_c,
-    humidity,
+    location.name AS location_name,
+    location.country AS country,
+    current.temp_c AS temperature_c,
+    current.humidity AS humidity,
     -- Categorize weather conditions
     CASE
-        WHEN temperature_c > 30 AND humidity < 50 THEN 'Hot and Dry'
-        WHEN temperature_c > 30 AND humidity >= 50 THEN 'Hot and Humid'
-        WHEN temperature_c BETWEEN 15 AND 30 THEN 'Mild'
+        WHEN current.temp_c > 30 AND current.humidity < 50 THEN 'Hot and Dry'
+        WHEN current.temp_c > 30 AND current.humidity >= 50 THEN 'Hot and Humid'
+        WHEN current.temp_c BETWEEN 15 AND 30 THEN 'Mild'
         ELSE 'Cold'
     END AS weather_category
-FROM {{ ref('staging_weather') }}
+FROM {{ ref('staging_weather') }};
